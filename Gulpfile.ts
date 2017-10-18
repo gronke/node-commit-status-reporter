@@ -47,3 +47,5 @@ gulp.task('tslint', () => {
 });
 
 gulp.task('build', ['compile:typescript']);
+
+gulp.task('travis', ['tslint', 'build']);
