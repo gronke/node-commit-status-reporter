@@ -5,9 +5,13 @@ const gulp = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const plugins = gulpLoadPlugins();
 
-import { GitHub, Statuses, StatusOptions } from './index';
-const githubReporter = new GitHub(plugins.util.env.GITHUB_TOKEN);
-const commit = githubReporter.commit(plugins.util.env.COMMIT);
+import { GitHubRepository, Statuses, StatusOptions } from './index';
+const githubRepository = new GitHubRepository(
+  'gronke',
+  'node-commit-status-reporter',
+  plugins.util.env.GITHUB_TOKEN
+);
+const commit = githubRepository.commit(plugins.util.env.COMMIT);
 
 gulp.task('compile:typescript', () => {
   return gulp.src('index.ts')
@@ -17,27 +21,31 @@ gulp.task('compile:typescript', () => {
 
 gulp.task('tslint', () => {
 
-  let errorCount = 0;
   const status = commit.getStatus('tslint');
   return status.report(Statuses.pending)
     .then(() => {
-      return gulp.src([
-        './index.ts'
-      ])
-      .pipe(plugins.debug())
-      .pipe(plugins.tslint({
-        configuration: 'tslint.json',
-        formatter: 'prose'
-      }))
-      .pipe(map((file: { tslint: { errorCount: number }}, done: (err: Error | null, file: {}) => void) => {
-        errorCount += file.tslint.errorCount;
-        done(null, file);
-      }))
-      .pipe(plugins.tslint.report({
-        emitError: false
-      }));
-    })
-    .then(() => {
+      return new Promise((resolve) => {
+        let errorCount = 0;
+        return gulp.src([
+          './index.ts'
+        ])
+        .pipe(plugins.tslint({
+          configuration: 'tslint.json',
+          formatter: 'prose'
+        }))
+        .pipe(map((file: { tslint: { errorCount: number }}, done: (err: Error | null, file: {}) => void) => {
+          errorCount += file.tslint.errorCount;
+          done(null, file);
+        }))
+        .pipe(plugins.tslint.report({
+          emitError: false
+        }))
+        .on('end', () => {
+          resolve(errorCount)
+        });
+      });
+     })
+    .then((errorCount) => {
       const hasErrors = (errorCount > 0);
       const state = hasErrors ? Statuses.failure : Statuses.success;
       const description = hasErrors ? `failed with ${errorCount} errors` : '';
