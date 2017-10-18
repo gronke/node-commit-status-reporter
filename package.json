@@ -1,0 +1,22 @@
+{
+  "name": "commit-status-reporter",
+  "version": "0.0.1",
+  "description": "GitHub Statuses reporting utility written in TypeScript",
+  "main": "commit-status-reporter.js",
+  "scripts": {
+    "test": "npm run gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gronke/node-commit-status-reporter.git"
+  },
+  "keywords": [
+    "github"
+  ],
+  "author": "Stefan Grönke <stefan@gronke.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gronke/node-commit-status-reporter/issues"
+  },
+  "homepage": "https://github.com/gronke/node-commit-status-reporter#readme"
+}
