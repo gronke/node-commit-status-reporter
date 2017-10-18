@@ -1,13 +1,14 @@
 "use strict";
-/// <reference types="node" />
 Object.defineProperty(exports, "__esModule", { value: true });
 const GitHubApi = require('github');
-class GitHub {
-    constructor(token) {
+class GitHubRepository {
+    constructor(owner, repo, token) {
+        this.owner = owner;
+        this.repo = repo;
         this.token_ = '';
         this.github = new GitHubApi({});
         if (typeof token === 'undefined') {
-            console.log('No API token available. Reporting skipped.');
+            console.log('GitHub Statuses reporting disabled: no API token available');
         }
         else {
             this.token = token;
@@ -27,10 +28,14 @@ class GitHub {
         if (this.token === '') {
             return Promise.resolve({});
         }
+        opts = Object.assign(opts, {
+            token: this.token,
+            owner: this.owner,
+            repo: this.repo
+        });
         return new Promise((resolve, reject) => {
             this.github.repos.createStatus(opts, (err, res) => {
                 if (err) {
-                    console.log(res);
                     console.error(err);
                     reject(err);
                 }
@@ -47,18 +52,21 @@ class GitHub {
         });
     }
 }
-exports.GitHub = GitHub;
+exports.GitHubRepository = GitHubRepository;
 class Commit {
-    constructor(hash, github) {
+    constructor(hash, repo) {
         this.hash = hash;
-        this.github = github;
+        this.repo = repo;
         this.statuses = {};
     }
     getStatus(context) {
         return new CommitStatus(context, this);
     }
     updateStatus(opts) {
-        return this.github.reportCommitStatus(this, opts);
+        opts = Object.assign(opts, {
+            sha: this.hash
+        });
+        return this.repo.reportCommitStatus(this, opts);
     }
 }
 exports.Commit = Commit;
@@ -77,7 +85,7 @@ class CommitStatus {
     report(status, description, targetUrl) {
         const opts = {
             context: this.context,
-            status: status
+            state: Statuses[status]
         };
         if (description) {
             opts.description = description;

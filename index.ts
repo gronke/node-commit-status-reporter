@@ -1,7 +1,7 @@
 /// <reference types="node" />
 
 export interface StatusOptions {
-  status: Statuses;
+  state: string;
   context: string;
   description?: string;
   target_url?: string;
@@ -21,12 +21,16 @@ interface GitHubApiInterface {
 
 const GitHubApi = require('github');
 
-export class GitHub {
+export class GitHubRepository {
 
   private token_: string = '';
   public github: GitHubApiInterface;
 
-  constructor(token: string) {
+  constructor(
+    public owner: string,
+    public repo: string,
+    token: string
+  ) {
     this.github = new GitHubApi({});
     if (typeof token === 'undefined') {
       console.log('GitHub Statuses reporting disabled: no API token available');
@@ -54,10 +58,15 @@ export class GitHub {
       return Promise.resolve({});
     }
 
+    opts = Object.assign(opts, {
+      token: this.token,
+      owner: this.owner,
+      repo: this.repo
+    });
+
     return new Promise((resolve, reject) => {
       this.github.repos.createStatus(opts, (err, res) => {
         if (err) {
-          console.log(res);
           console.error(err);
           reject(err);
         } else {
@@ -80,14 +89,17 @@ export class Commit {
 
   statuses: { [key: string]: CommitStatus } = {};
 
-  constructor(public hash: string, public github: GitHub) {}  
+  constructor(public hash: string, public repo: GitHubRepository) {}  
   
   getStatus(context: string): CommitStatus {
     return new CommitStatus(context, this, );
   }
 
   updateStatus(opts: StatusOptions): Promise<{}> {
-    return this.github.reportCommitStatus(this, opts);
+    opts = Object.assign(opts, {
+      sha: this.hash
+    });
+    return this.repo.reportCommitStatus(this, opts);
   }
 
 }
@@ -106,9 +118,10 @@ export class CommitStatus {
   ) {}
 
   report(status: Statuses, description?: string, targetUrl?: string): Promise<{}> {
+
     const opts: StatusOptions = {
       context: this.context,
-      status: status
+      state: Statuses[status]
     };
     if (description) {
       opts.description = description;
