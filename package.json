@@ -2,8 +2,9 @@
   "name": "commit-status-reporter",
   "version": "0.0.1",
   "description": "GitHub Statuses reporting utility written in TypeScript",
-  "main": "commit-status-reporter.js",
+  "main": "index.js",
   "scripts": {
+    "gulp": "./node_modules/.bin/tsc -t ES6 -m commonjs Gulpfile.ts && gulp",
     "test": "npm run gulp test"
   },
   "repository": {
@@ -18,5 +19,20 @@
   "bugs": {
     "url": "https://github.com/gronke/node-commit-status-reporter/issues"
   },
-  "homepage": "https://github.com/gronke/node-commit-status-reporter#readme"
+  "homepage": "https://github.com/gronke/node-commit-status-reporter#readme",
+  "dependencies": {
+    "@types/gulp": "^4.0.4",
+    "@types/node": "^8.0.44",
+    "github": "^11.0.0",
+    "gulp-debug": "^3.1.0",
+    "gulp-util": "^3.0.8",
+    "tslint": "^5.7.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-tslint": "^8.1.2",
+    "gulp-typescript": "^3.2.2",
+    "typescript": "^2.5.3"
+  }
 }
