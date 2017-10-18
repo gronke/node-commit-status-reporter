@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "lib": [
+      "ES6",
+      "ES2015.Promise"
+    ],
+    "allowJs": true
+  }
+}
