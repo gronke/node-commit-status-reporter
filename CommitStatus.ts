@@ -1,19 +1,19 @@
 import * as Github from "./node_modules/github/lib/index";
 
-import Commit from './Commit';
-import { Statuses } from './Statuses';
+import Commit from "./Commit";
+import { Statuses } from "./Statuses";
 
 export default class CommitStatus {
   constructor(
     public context: string,
-    private commit: Commit
+    private commit: Commit,
   ) {}
 
-  report(status: Statuses, description?: string, targetUrl?: string): Promise<{}> {
+  public report(status: Statuses, description?: string, targetUrl?: string): Promise<{}> {
 
     const opts = ({
       context: this.context,
-      state: (Statuses[status] as string)
+      state: (Statuses[status] as string),
     } as Github.ReposCreateStatusParams);
     if (description) {
       opts.description = description;

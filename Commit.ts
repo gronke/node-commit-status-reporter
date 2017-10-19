@@ -5,20 +5,20 @@ import Repository from "./Repository";
 
 export default class Commit {
 
-  statuses: { [key: string]: CommitStatus } = {};
+  public statuses: { [key: string]: CommitStatus } = {};
 
-  constructor(public hash: string, public repo: Repository) {}  
-  
-  getStatus(context: string): CommitStatus {
+  constructor(public hash: string, public repo: Repository) {}
+
+  public getStatus(context: string): CommitStatus {
     if (typeof this.statuses[context] === "undefined") {
-      this.statuses[context] = new CommitStatus(context, this, );
+      this.statuses[context] = new CommitStatus(context, this);
     }
     return this.statuses[context];
   }
 
-  updateStatus(opts: Github.ReposCreateStatusParams): Promise<{}> {
+  public updateStatus(opts: Github.ReposCreateStatusParams): Promise<{}> {
     opts = Object.assign(opts, {
-      sha: this.hash
+      sha: this.hash,
     });
     return this.repo.reportCommitStatus(this, opts);
   }

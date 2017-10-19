@@ -1,15 +1,15 @@
 /// <reference types="node" />
 
-const map = require("map-stream");
-const gulp = require("gulp");
-const gulpLoadPlugins = require("gulp-load-plugins");
+import gulp = require("gulp");
+import gulpLoadPlugins = require("gulp-load-plugins");
+import * as map from "map-stream";
 const plugins = gulpLoadPlugins();
 
 import { Repository, Statuses, StatusOptions } from "./index";
 const githubRepository = new Repository(
   "gronke",
   "node-commit-status-reporter",
-  plugins.util.env.GITHUB_TOKEN
+  plugins.util.env.GITHUB_TOKEN,
 );
 const commit = githubRepository.commit(plugins.util.env.COMMIT);
 
@@ -29,17 +29,17 @@ gulp.task("tslint", () => {
         return gulp.src("*.ts")
         .pipe(plugins.tslint({
           configuration: "tslint.json",
-          formatter: "prose"
+          formatter: "prose",
         }))
         .pipe(map((file: { tslint: { errorCount: number }}, done: (err: Error | null, file: {}) => void) => {
           errorCount += file.tslint.errorCount;
           done(null, file);
         }))
         .pipe(plugins.tslint.report({
-          emitError: false
+          emitError: false,
         }))
         .on("end", () => {
-          resolve(errorCount)
+          resolve(errorCount);
         });
       });
      })
