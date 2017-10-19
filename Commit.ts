@@ -1,4 +1,4 @@
-import * as Github from "./node_modules/github/lib/index";
+import * as Github from "github";
 
 import CommitStatus from "./CommitStatus";
 import Repository from "./Repository";
