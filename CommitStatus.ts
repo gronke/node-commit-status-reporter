@@ -19,7 +19,7 @@ export default class CommitStatus {
     if (description) {
       opts.description = description;
     }
-    
+
     if (targetUrl) {
       opts.target_url = targetUrl;
     }
