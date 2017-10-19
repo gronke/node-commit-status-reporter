@@ -1,6 +1,6 @@
 {
   "name": "commit-status-reporter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "GitHub Statuses reporting utility written in TypeScript",
   "main": "index.js",
   "scripts": {
