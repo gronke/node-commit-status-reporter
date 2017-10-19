@@ -7,7 +7,6 @@ cache:
 install:
   - npm install
 script:
-  - echo $TRAVIS_COMMIT
   - npm run gulp -- travis --COMMIT="$TRAVIS_COMMIT" --GITHUB_TOKEN="$GITHUB_TOKEN"
 env:
   - secure: "nlXLN/NpA31ngS2P3jpo4FWIsI8pqp41OiS3/7jjc35rRK0+XX8P/pg6zNqAhu17kU8/X0QrXGruyocs+Q8LG0pljuqVJlMmufeA3QlAI1I/kgoVu4pIp2bnDzeDSYotcHCnx+twtibQ4fiv4fNWUI3EusUmWa6mOVgHp6SEyd581rtwz0nQpANanyxRoydGSwOmcVjCU80QHyjXlQd8ig+41VEhsWYFKjDosiWEdCybjFIw0KWLBTRAtW06E2mK2BM6JQRP1pEnXb8m73jhWySHtAlxlITAgGIZg0Iuqrhb6uPBygNpsJI7LBK4c/FpG/JG9lXM+4jw1DW3JtvGA+tVLx5m+GtFjTpJmoJyG3eWb7UsxY6rsiSlO5h0F+jL3yVEsXO4SfwlfPjsJijee/Po6OfV2xYaRZxlFWYu1L4LInmUVgov/P2nemUM8fX5zvhdgmLpopu/zpc+PH3TsEYowU9O/acBRBFkf2Z3ixccRmUkz0N9qub5wMAdMqXgRBsuVqWhPqtf290iKChHKxe4vSj09h/KDRU0D4mN07kDfbVavIT9U4+jLrC8Ph8znmRFWKsfO7YlwG4LPUKH4HxaIOHbU7kpjY1wf6c4rMvFz025SMEAyJz0S4kwQT7L68jDMPoLp+6AD7zt0S8sw7kh/6FmSBNm7EIj6HqF3zE="
