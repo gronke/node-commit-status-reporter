@@ -15,9 +15,11 @@ export default class CommitStatus {
       context: this.context,
       state: (Statuses[status] as string),
     } as Github.ReposCreateStatusParams);
+
     if (description) {
       opts.description = description;
     }
+    
     if (targetUrl) {
       opts.target_url = targetUrl;
     }
