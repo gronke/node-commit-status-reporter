@@ -12,6 +12,7 @@ const githubRepository = new Repository(
   plugins.util.env.GITHUB_TOKEN,
 );
 const commit = githubRepository.commit(plugins.util.env.COMMIT);
+console.log(plugins.util.env.COMMIT);
 
 gulp.task("compile:typescript", () => {
   return gulp.src("index.ts")
