@@ -22,7 +22,7 @@ gulp.task("compile:typescript", () => {
 
 gulp.task("tslint", () => {
 
-  const status = commit.getStatus("tslint");
+  const status = commit.getStatus("TypeScript Code Style");
   return status.report(Statuses.pending)
     .then(() => {
       return new Promise((resolve) => {
