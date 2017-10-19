@@ -1,7 +1,7 @@
 import * as Github from "./node_modules/github/lib/index";
 
-import CommitStatus from './CommitStatus';
-import Repository from './Repository';
+import CommitStatus from "./CommitStatus";
+import Repository from "./Repository";
 
 export default class Commit {
 
@@ -10,7 +10,10 @@ export default class Commit {
   constructor(public hash: string, public repo: Repository) {}  
   
   getStatus(context: string): CommitStatus {
-    return new CommitStatus(context, this, );
+    if (typeof this.statuses[context] === "undefined") {
+      this.statuses[context] = new CommitStatus(context, this, );
+    }
+    return this.statuses[context];
   }
 
   updateStatus(opts: Github.ReposCreateStatusParams): Promise<{}> {
