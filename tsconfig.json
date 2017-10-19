@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "commonjs",
-    "outFile": "./index.js",
     "moduleResolution": "node",
     "removeComments": true,
     "noImplicitAny": true,

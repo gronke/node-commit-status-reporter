@@ -1,49 +1,49 @@
 import * as Github from "./node_modules/github/lib/index";
-import { Statuses } from './Statuses';
+import { Statuses } from "./Statuses";
 
-import * as GitHubApi from 'github';
-import Commit from './Commit';
+import * as GitHubApi from "github";
+import Commit from "./Commit";
 
 export default class Repository {
 
-  private token_ = '';
   public github = new GitHubApi({});
+  private githubAccessToken = "";
 
   constructor(
     public owner: string,
     public repo: string,
-    token: string
+    token: string,
   ) {
-    if (typeof token === 'undefined') {
-      console.log('GitHub Statuses reporting disabled: no API token available');
+    if (typeof token === "undefined") {
+      console.log("GitHub Statuses reporting disabled: no API token available");
     } else {
       this.token = token;
     }
   }
 
-  set token(value: string) {
-    this.token_ = value;
+  public set token(value: string) {
+    this.githubAccessToken = value;
     this.authenticate(value);
   }
 
-  get token(): string {
-    return this.token_;
+  public get token(): string {
+    return this.githubAccessToken;
   }
 
-  commit(hash: string): Commit {
+  public commit(hash: string): Commit {
     return new Commit(hash, this);
   }
 
-  reportCommitStatus(commit: Commit, opts: Github.ReposCreateStatusParams): Promise<{}> {
+  public reportCommitStatus(commit: Commit, opts: Github.ReposCreateStatusParams): Promise<{}> {
 
-    if (this.token === '') {
+    if (this.token === "") {
       return Promise.resolve({});
     }
 
     opts = Object.assign(opts, {
-      token: this.token,
       owner: this.owner,
-      repo: this.repo
+      repo: this.repo,
+      token: this.token,
     });
 
     return new Promise((resolve, reject) => {
@@ -60,8 +60,8 @@ export default class Repository {
 
   private authenticate(token: string) {
     this.github.authenticate({
-      type: 'oauth',
-      token: this.token
+      token: this.token,
+      type: "oauth",
     });
   }
 

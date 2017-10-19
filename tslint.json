@@ -3,6 +3,7 @@
     "tslint:recommended"
   ],
   "rules": {
-    "no-any": true
+    "no-any": true,
+    "no-console": false
   }
 }
